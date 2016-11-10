@@ -1,0 +1,90 @@
+<div class="container-fluid landing">
+    <div class="signin-div">
+        <div class="row logo">
+            <img alt="" class="img-logo">
+        </div>
+        <br><br>
+        <div class="row title">
+            <div class="col-xs-10 col-xs-offset-1 text-center">
+                <p class=" text-uppercase ">Bienvenido a  <span class="vozify">Sumatoria de Cubos</span></p>
+            </div>
+        </div>
+        <form class="form-value" name="forms.value">
+            <div class="col-md-6 col-md-offset-3 formulario" >
+                <div class="row">
+                    <div class="col-xs-12 input-value">
+                        <input type="numeric" class="form-control" name="cs" id="cs"  ng-model="vm.form.cs"
+                               placeholder="Ingrese el número de Casos de prueba"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 input-value">
+                        <input type="numeric" class="form-control" name="n" id="n" ng-model="vm.form.n"
+                               placeholder="Ingrese el valor de N"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 input-value">
+                        <input type="numeric" class="form-control" name="m" id="m" ng-model="vm.form.m"
+                               placeholder="Ingrese el valor de M"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 col-md-offset-5 col-xs-10 col-xs-offset-1 text-center">
+                    <button type="submit" class="btn btn-default btn-md text-uppercase calcular"  ng-click="vm.next()">Siguiente</button>
+                </div>
+            </div>
+        </form>
+        <form class="form-value" name="forms.operation" ng-repeat="i in vm.getNumber(vm.T) track by $index" ng-init="procedIndex = $index">
+            <div class="col-md-6 col-md-offset-3 formulario">
+              Caso de Prueba {{$index+1}}
+                <div class="row" ng-repeat="i in vm.getNumber(vm.M) track by $index" ng-init="i = procedIndex == 0 ? procedIndex + $index : (procedIndex + 1) + $index">
+                      <div class="col-xs-8 col-xs-offset-2 input-value">
+                        <div class="btn-group">
+                            <p>
+                              <label>
+                                <input type="radio" class="checkbox-item" name="check-{{$index}}" ng-model="vm.proced[procedIndex].operation[$index].type" value="U" ng-change="vm.type( procedIndex, $index)"> Update
+                              </label>
+                              <div ng-show="vm.mostrarUpdate[i]">
+                                <input type="numeric" name="name" value="" class="col-xs-3" placeholder="Ingrese X" ng-model="vm.proced[procedIndex].operation[$index].x">
+                                <input type="numeric" name="name" value="" class="col-xs-3" placeholder="Ingrese Y"
+                                ng-model="vm.proced[procedIndex].operation[$index].y">
+                                <input type="numeric" name="name" value="" class="col-xs-3" placeholder="Ingrese Z"
+                                ng-model="vm.proced[procedIndex].operation[$index].z">
+                                <input type="numeric" name="name" value="" class="col-xs-3" placeholder="Ingrese W"
+                                ng-model="vm.proced[procedIndex].operation[$index].w">
+                              </div>
+                            </p>
+                            <p>
+                              <label>
+                                <input type="radio" class="checkbox-item" name="check-{{$index}}"  ng-model="vm.proced[procedIndex].operation[$index].type" value="Q" ng-change="vm.type (procedIndex, $index)"> Querys
+                              </label>
+                              <div ng-show="vm.mostrarQuery[i]">
+                                <input type="numeric" name="x1" value="" class="col-xs-3" placeholder="Ingrese X1" ng-model="vm.proced[procedIndex].operation[$index].x1">
+                                <input type="numeric" name="y1" value="" class="col-xs-3" placeholder="Ingrese Y1"
+                                ng-model="vm.proced[procedIndex].operation[$index].y1">
+                                <input type="numeric" name="z1" value="" class="col-xs-3" placeholder="Ingrese Z1"
+                                ng-model="vm.proced[procedIndex].operation[$index].z1">
+                                <input type="numeric" name="x2" value="" class="col-xs-3" placeholder="Ingrese X2" ng-model="vm.proced[procedIndex].operation[$index].x2">
+                                <input type="numeric" name="y2" value="" class="col-xs-3" placeholder="Ingrese Y2"
+                                ng-model="vm.proced[procedIndex].operation[$index].y2">
+                                <input type="numeric" name="z2" value="" class="col-xs-3" placeholder="Ingrese Z2"
+                                ng-model="vm.proced[procedIndex].operation[$index].z2">
+                              </div>
+
+                            </p>
+                        </div>
+                      </div>
+                </div>
+            </div>
+
+        </form>
+        <div class="row" ng-show="vm.mostrar">
+            <div class="col-md-2 col-md-offset-5 col-xs-10 col-xs-offset-1 text-center">
+                <button type="submit" class="btn btn-default btn-md text-uppercase calcular"  ng-click="vm.calculate()">Calcular</button>
+            </div>
+        </div>
+        {{vm.resultados}}
+    </div>
+</div>

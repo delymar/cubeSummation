@@ -1,0 +1,23 @@
+@import 'fonts.less';
+@import "colors.less";
+@import "forms.less";
+@import "landing/landing.less";
+
+@width: 816px;
+@height: 1056px;
+html, body{
+  height: 100%;
+}
+
+
+// MEDIA QUERY VARIABLES
+
+@small-only: ~"(max-width: 479px)";
+@small-up: ~"(min-width: 480px)";
+
+@medium-down: ~"(max-width: 767px)";
+@medium-up: ~"(min-width: 768px)";
+@medium-only: @small-up and @medium-down;
+
+@large-down: ~"(max-width: 1199px)";
+@large-up: ~"(min-width: 1200px)";

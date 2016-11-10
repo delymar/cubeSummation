@@ -1,0 +1,20 @@
+.DS_Store
+*.log
+
+#idea
+.idea/
+
+# Bower files
+bower_components
+
+# NPM Packages
+node_modules
+
+# Vendor Packages
+app/vendors
+
+# Production site
+www
+.idea/workspace.xml
+
+.idea/*

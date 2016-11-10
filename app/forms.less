@@ -1,0 +1,14 @@
+@import "colors.less";
+
+#page-wrapper {
+  input[type="text"],
+  textarea,
+  select {
+    // This is a hack to get these properties to override .form-control
+    &.form-control, &:not(.form-control) {
+      border: 1px solid @graygray;
+      box-shadow: none;
+      border-radius: 0;
+    }
+  }
+}
