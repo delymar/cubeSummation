@@ -12,12 +12,8 @@
     function authService($http, $q, BaseApiUrl, $cookies, $rootScope, $cookieStore, $state) {
 
         var authService = {
-            register:register,
-            signin: signin,
-            logout: logout,
-            isAuthenticated: isAuthenticated,
-            unauthenticate: unauthenticate,
-            setAuthenticatedAccount: setAuthenticatedAccount
+            register:register
+
         };
 
         return authService;
@@ -41,55 +37,7 @@
             return deferred.promise;
         }
 
-        function signin (form) {
-            var deferred = $q.defer();
-            $http.post(BaseApiUrl + '/auth/local/login', form)
-                .then(function(data, status, headers, config) {
-                    setAuthenticatedAccount(data).then(function(resp){
-                        if(resp)
-                            deferred.resolve(data);
-                        else
-                            deferred.reject({status:'500'});
-                    });
-                })
-                .catch(function(data, status, headers, config) {
-                    data.status = status;
-                    deferred.reject(data);
-                });
-            return deferred.promise;
-        }
-        function logout () {
-            var deferred = $q.defer();
-            $http.get(BaseApiUrl + '/auth/logout')
-                .then(function(data, status, headers, config) {
-                    unauthenticate();
-                })
-                .catch(function(data, status, headers, config) {
-                    data.status = status;
-                    deferred.reject(data);
-                });
-            return deferred.promise;
-        }
 
-        function isAuthenticated() {
-            return !!(localStorage.getItem('Token'));
-        }
 
-        function unauthenticate() {
-            $http.defaults.headers.common.Authorization = '';
-            localStorage.removeItem('Token');
-            localStorage.removeItem('User');
-            $state.go('landing');
-        }
-
-        function setAuthenticatedAccount(result) {
-            var deferred = $q.defer();
-            var token = 'JWT ' + result.data.token;
-            $http.defaults.headers.common.Authorization = token;
-            localStorage.setItem('Token', token);
-            localStorage.setItem('User', JSON.stringify(result.data.user));
-            deferred.resolve(true);
-            return deferred.promise;
-        }
     }
 })();

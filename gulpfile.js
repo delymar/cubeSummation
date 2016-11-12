@@ -56,11 +56,15 @@ var vendorScripts = [
   BaseVendors + 'angular-cookies/angular-cookies.min.js',
   BaseVendors + 'angular-ui-router/release/angular-ui-router.min.js',
   BaseVendors + 'bootstrap/dist/js/bootstrap.min.js',
-  BaseVendors + 'angular-bootstrap/ui-bootstrap-tpls.min.js'
+  BaseVendors + 'angular-bootstrap/ui-bootstrap-tpls.min.js',
+  BaseVendors + 'bootstrap-sweetalert/dist/sweetalert.min.js'
+
 ];
 var vendorStyles = [
   BaseVendors + 'bootstrap/dist/css/bootstrap.min.css',
-  BaseVendors + 'font-awesome/css/font-awesome.min.css'
+  BaseVendors + 'font-awesome/css/font-awesome.min.css',
+  BaseVendors + 'bootstrap-sweetalert/dist/sweetalert.css',
+
 ];
 var vendorsFonts = [
   BaseVendors + 'font-awesome/fonts/fontawesome-webfont.woff',
