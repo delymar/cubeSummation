@@ -7,12 +7,12 @@
         .module('app')
         .factory('cubeService', cubeService);
 
-    cubeService.$inject = [];
+    cubeService.$inject = ['$q', '$log'];
 
-    function cubeService() {
+    function cubeService($q, $log) {
 
         var cubeService = {
-            generate:generate,
+            generate: generate,
             update: update,
             query: query,
             print: print
@@ -37,7 +37,7 @@
           return deferred.promise;
         }
 
-        function update(cube, x, y, z, W) {
+        function update(cube, N, x, y, z, W) {
           var deferred = $q.defer();
           if (validatePos(x, y, z)) {
             cube[x][y][z] = parseInt(W)
@@ -49,22 +49,14 @@
           return deferred.promise;
         }
 
-        function validatePos(x, y, z) {
-          if (x > N || y > N || z > N || x < 1 || y < 1 || z < 1 ) {
+        function validatePos(x, y, z, N) {
+          if (x > N || y > N || z > N || x < 1 || y < 1 || z < 1 )
             return false;
-          }
-          else {
+          else
             return (/^([0-9])*$/.test(x) && /^([0-9])*$/.test(y) &&  /^([0-9])*$/.test(z))
-            // if(/^([0-9])*$/.test(x) && /^([0-9])*$/.test(y) &&  /^([0-9])*$/.test(z)) {
-            //   return true;
-            // }
-            // else{
-            //   return false;
-            // }
-          }
         }
 
-        function query (cube, x1, y1, z1, x2, y2, z2) {
+        function query (cube, N, x1, y1, z1, x2, y2, z2) {
           var deferred = $q.defer();
 
           if(!validatePos(x1, y1, z1))
@@ -76,19 +68,31 @@
           if(x1 > x2)
             deferred.reject({type:'warning', title: 'Alerta', description: 'La posición inicial debe ser menor a la final'});
 
-          if (x1 == x2 && y1 == y2 && z1 == z2)
+          if (x1 == x2 && y1 == y2 && z1 == z2) {
             deferred.resolve(cube[x1][y1][z1]);
-
-          var aux = 0;
-          for (x = x1; x <= x2; x++){
-              for (y = y1; y <= y2; y++){
-                  for (z = z1; z <= z2; z++){
-                    aux = cube[x][y][z] + aux;
-                  }
-              }
           }
-          deferred.resolve(aux);
+          else {
+            var aux = 0;
+            for (x = x1; x <= x2; x++){
+              for (y = y1; y <= y2; y++){
+                for (z = z1; z <= z2; z++){
+                  aux = cube[x][y][z] + aux;
+                }
+              }
+            }
+            deferred.resolve(aux);
+          }
           return deferred.promise;
+        }
+
+        function print (cube, N) {
+           for (x = 1; x <= N; x++)  {
+               for (y = 1; y <= N; y++){
+                   for (z = 1; z <= N; z++){
+                    $log.info("x = " + x + ", y = " + y + ", z = " + z + " | valor =  " + cube[x][y][z]);
+                   }
+               }
+           }
         }
     }
 })();
