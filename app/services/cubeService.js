@@ -50,6 +50,7 @@
         }
 
         function validatePos(x, y, z, N) {
+          console.log("valido? " + x + "-" + y + "-" + z, !(x > N || y > N || z > N || x < 1 || y < 1 || z < 1 ));
           if (x > N || y > N || z > N || x < 1 || y < 1 || z < 1 )
             return false;
           else
@@ -59,28 +60,34 @@
         function query (cube, N, x1, y1, z1, x2, y2, z2) {
           var deferred = $q.defer();
 
-          if(!validatePos(x1, y1, z1))
-            deferred.reject({type:'warning', title: 'Alerta', description: 'La posición ['+x1+','+y1+','+z1+'] no existe'});
-
-          if(!validatePos(x2, y2, z2))
-            deferred.reject({type:'warning', title: 'Alerta', description: 'La posición ['+x2+','+y2+','+z2+'] no existe'});
-
-          if(x1 > x2)
-            deferred.reject({type:'warning', title: 'Alerta', description: 'La posición inicial debe ser menor a la final'});
-
-          if (x1 == x2 && y1 == y2 && z1 == z2) {
-            deferred.resolve(cube[x1][y1][z1]);
-          }
-          else {
-            var aux = 0;
-            for (x = x1; x <= x2; x++){
-              for (y = y1; y <= y2; y++){
-                for (z = z1; z <= z2; z++){
-                  aux = cube[x][y][z] + aux;
+          if (validatePos(x2, y2, z2, N)) {
+            if (validatePos(x1, y1, z1, N)) {
+              if(x1 <= x2 && y1 <= y2 && z1 <= z2 ) {
+                if (x1 == x2 && y1 == y2 && z1 == z2) {
+                  deferred.resolve(cube[x1][y1][z1]);
+                }
+                else {
+                  var aux = 0;
+                  for (x = x1; x <= x2; x++){
+                    for (y = y1; y <= y2; y++){
+                      for (z = z1; z <= z2; z++){
+                        aux = cube[x][y][z] + aux;
+                      }
+                    }
+                  }
+                  deferred.resolve(aux);
                 }
               }
+              else {
+                deferred.reject({type:'warning', title: 'Alerta', description: 'La posición inicial debe ser menor a la final'});
+              }
             }
-            deferred.resolve(aux);
+            else {
+            deferred.reject({type:'warning', title: 'Alerta', description: 'La posición ['+x1+','+y1+','+z1+'] no existe'});
+            }
+          }
+          else {
+            deferred.reject({type:'warning', title: 'Alerta', description: 'La posición ['+x2+','+y2+','+z2+'] no existe'});
           }
           return deferred.promise;
         }

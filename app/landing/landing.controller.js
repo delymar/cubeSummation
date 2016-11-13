@@ -5,14 +5,12 @@
      angular.module('app')
          .controller('landingController', landingController);
 
-     landingController.$inject = ['cubeService'];
+     landingController.$inject = ['$scope', 'cubeService'];
 
-     function landingController(cubeService) {
+     function landingController($scope, cubeService) {
          var vm = this;
          vm.result = false;
          vm.mostrar = false;
-         vm.mostrarQuery = [];
-         vm.mostrarUpdate = [];
 
          function generateCube(n) {
            cubeService.generate(n).then(function (cube) {
@@ -42,11 +40,14 @@
              vm.M = vm.form.m;
              vm.N = vm.form.n;
              generateCube(vm.N);
+             vm.mostrarQuery = [];
+             vm.mostrarUpdate = [];
              vm.mostrar = true;
              vm.result = false;
              vm.aux = 0;
              vm.proced = new Array();
              vm.resultados = new Array();
+             $scope.$apply();
          }
 
          vm.calculate = function() {
@@ -62,16 +63,10 @@
                        if(operacion.type == 'Q') {
                          cubeService.query(vm.cube, vm.N, operacion.x1, operacion.y1, operacion.z1, operacion.x2, operacion.y2, operacion.z2)
                           .then(function (result) {
-                             console.log("dentro del query function: ", result);
                              vm.resultados.push(result);
                            }).catch(function (err) {
                              return swal(err.title, err.description, err.type);
                            });
-                        //  console.log("Entre a un query");
-                        //  var value = vm.query(operacion.x1, operacion.y1, operacion.z1, operacion.x2, operacion.y2, operacion.z2);
-                        //  console.log("recibi ", value);
-                        //  vm.resultados.push(value);
-                        //  console.log("ahora resultados es: ", vm.resultados);
                       }
                     });
                    }
@@ -80,18 +75,11 @@
                      return swal("Alerta", "Falta una operación por completar", "warning");
                    }
                 }
-                console.log("Resultado total: ", vm.resultados);
                 vm.result=true;
             }
           }
            else {
             return swal("Alerta", "Debe seleccionar las operaciones", "warning");
-          }
-          if(!_.isEmpty(vm.resultados)) {
-            return swal("Sumatoria de Cubo", vm.resultados)
-          }
-          else {
-            return swal("Sumatoria de Cubo", "No se realizó ningún Query")
           }
          }
 
@@ -101,6 +89,7 @@
 
          vm.type= function(procedIndex, index){
            var i = procedIndex == 0 ? procedIndex + index : (procedIndex + 1) + index;
+           console.log("procedIndex " + procedIndex + ", index: " + index);
            if(vm.proced[procedIndex].operation[index].type==='U') {
               vm.mostrarQuery[i] = false;
               vm.mostrarUpdate[i] = true;
@@ -114,7 +103,6 @@
          vm.update = function (x, y, z, W) {
            cubeService.update(vm.cube, vm.N, x, y, z, W).then(function (cube) {
              vm.cube = _.map(cube, _.clone);
-            //  cubeService.print(vm.cube, vm.N);
            }).catch(function (err) {
              return swal(err.title, err.description, err.type);
            });
@@ -122,7 +110,6 @@
 
          vm.query = function (x1, y1, z1, x2, y2, z2) {
            cubeService.query(vm.cube, vm.N, x1, y1, z1, x2, y2, z2).then(function (result) {
-             console.log("dentro del query function: ", result);
              return result;
            }).catch(function (err) {
              return swal(err.title, err.description, err.type);
