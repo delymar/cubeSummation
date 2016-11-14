@@ -3,11 +3,11 @@
  */
  (function(){
      angular.module('app')
-         .controller('landingController', landingController);
+         .controller('LandingController', LandingController);
 
-     landingController.$inject = ['$scope', 'cubeService', '$uibModal', '$document', 'toastr'];
+     LandingController.$inject = ['$scope', 'cubeService', '$uibModal', '$document', 'toastr'];
 
-     function landingController($scope, cubeService, $uibModal, $document, toastr) {
+     function LandingController($scope, cubeService, $uibModal, $document, toastr) {
          var vm = this;
          vm.result = false;
          vm.mostrar = false;
@@ -53,7 +53,7 @@
            if(!_.isEmpty(vm.proced)) {
              for (j = 0 ; j < vm.T ; j++) {
                  var proc = _.map(vm.proced[j], _.clone);
-                 if(!_.isEmpty(proc[0]) || proc[0] != undefined) {
+                 if(!_.isEmpty(proc[0]) || proc[0] != angular.isUndefined) {
                    if( _.size(proc[0]) === vm.M) {
                      async.each(proc[0], function(operacion, callback) {
                        if(operacion.type == 'U') {
@@ -82,7 +82,7 @@
                               ariaLabelledBy: 'modal-title',
                               ariaDescribedBy: 'modal-body',
                               templateUrl: 'app/landing/modalResult/result-modal.html',
-                              controller: 'resultController',
+                              controller: 'ResultController',
                               controllerAs: 'vm',
                               size: 'md',
                               resolve: {
@@ -112,7 +112,7 @@
       }
 
          vm.getNumber= function(num){
-            return num!= undefined ? new Array (parseInt(num)) : [];
+            return num!= angular.isUndefined ? new Array (parseInt(num)) : [];
          }
 
          vm.type= function(procedIndex, index){

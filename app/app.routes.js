@@ -12,7 +12,7 @@
                 views: {
                     "main": {
                         templateUrl: 'app/landing/landing.html',
-                        controller: 'landingController',
+                        controller: 'LandingController',
                         controllerAs: 'vm'
                     }
                 },

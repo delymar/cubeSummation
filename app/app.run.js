@@ -7,7 +7,7 @@
 
     function runBlock($rootScope, $state, $http) {
 
-        $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+        var stateChangeStart = $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
             $rootScope.currentState = toState.name;
 
             var redirect = toState.redirectTo;

@@ -1,4 +1,6 @@
-#  Install Npm and Bower
+#  install Dependencies
 `sudo npm install && bower install`
+#  Unit Tests
+`npm test`
 #  Server
-`gulp server`
+`npm run start-dev`

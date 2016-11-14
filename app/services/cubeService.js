@@ -50,7 +50,7 @@
         }
 
         function validatePos(x, y, z, N) {
-          if (x == undefined || y == undefined || z == undefined || N == undefined)
+          if (x == angular.isUndefined || y == angular.isUndefined || z == angular.isUndefined || N == angular.isUndefined)
             return false
           if (x > N || y > N || z > N || x < 1 || y < 1 || z < 1 )
             return false;

@@ -31,7 +31,15 @@
   "license": "MIT License",
   "devDependencies": {
     "concurrent-transform": "1.0.0",
+    "eslint": "^3.10.0",
+    "eslint-config-angular": "^0.5.0",
+    "eslint-plugin-angular": "^1.4.1",
     "gulp-awspublish": "3.0.1",
     "gulp-livereload": "^3.8.1"
+  },
+  "scripts": {
+    "start": "gulp",
+    "start-dev": "gulp watch",
+    "test": "npm install -g eslint && eslint ."
   }
 }
