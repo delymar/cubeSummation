@@ -4,6 +4,9 @@
     angular
         .module('app', ['ui.router',
             'ngSanitize',
-            'ngCookies'
+            'ngCookies',
+            'ui.bootstrap',
+            'ngAnimate',
+            'toastr'
         ]);
 })();

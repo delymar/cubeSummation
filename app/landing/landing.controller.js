@@ -5,9 +5,9 @@
      angular.module('app')
          .controller('landingController', landingController);
 
-     landingController.$inject = ['$scope', 'cubeService'];
+     landingController.$inject = ['$scope', 'cubeService', '$uibModal', '$document', 'toastr'];
 
-     function landingController($scope, cubeService) {
+     function landingController($scope, cubeService, $uibModal, $document, toastr) {
          var vm = this;
          vm.result = false;
          vm.mostrar = false;
@@ -43,11 +43,10 @@
              vm.mostrarQuery = [];
              vm.mostrarUpdate = [];
              vm.mostrar = true;
-             vm.result = false;
+             vm.error = false;
              vm.aux = 0;
              vm.proced = new Array();
              vm.resultados = new Array();
-             $scope.$apply();
          }
 
          vm.calculate = function() {
@@ -58,30 +57,54 @@
                    if( _.size(proc[0]) === vm.M) {
                      _.forEach(proc[0], function(operacion) {
                        if(operacion.type == 'U') {
-                         return vm.update(operacion.x, operacion.y, operacion.z, operacion.w);
+                         cubeService.update(vm.cube, vm.N, operacion.x, operacion.y, operacion.z, operacion.w).then(function (cube) {
+                           vm.cube = _.map(cube, _.clone);
+                         }).catch(function (err) {
+                           toastr.error( err.description,err.title);
+                         });
                        }
                        if(operacion.type == 'Q') {
                          cubeService.query(vm.cube, vm.N, operacion.x1, operacion.y1, operacion.z1, operacion.x2, operacion.y2, operacion.z2)
                           .then(function (result) {
                              vm.resultados.push(result);
                            }).catch(function (err) {
-                             return swal(err.title, err.description, err.type);
+                             toastr.error( err.description,err.title);
                            });
                       }
                     });
+                    vm.modalInstance = $uibModal.open({
+                          animation: true,
+                          ariaLabelledBy: 'modal-title',
+                          ariaDescribedBy: 'modal-body',
+                          templateUrl: 'app/landing/modalResult/result-modal.html',
+                          controller: 'resultController',
+                          controllerAs: 'vm',
+                          size: 'md',
+                          resolve: {
+                            items: function(){
+                                   var resultInfo = {
+                                       proced: vm.proced,
+                                       result: vm.resultados,
+                                       cs: vm.form.cs,
+                                       m: vm.form.m,
+                                       n: vm.form.n,
+                                       error: vm.error
+                                   };
+                                   return resultInfo;
+                               }
+                         }
+                    })
                    }
                    else {
-                     vm.result = false;
-                     return swal("Alerta", "Falta una operación por completar", "warning");
+                     toastr.warning( "Falta una operación por completar", "Alerta");
                    }
                 }
-                vm.result=true;
             }
-          }
-           else {
-            return swal("Alerta", "Debe seleccionar las operaciones", "warning");
-          }
-         }
+        }
+        else {
+          toastr.warning( "Debe seleccionar las operaciones", "Alerta");
+        }
+      }
 
          vm.getNumber= function(num){
             return num!= undefined ? new Array (parseInt(num)) : [];
@@ -89,7 +112,6 @@
 
          vm.type= function(procedIndex, index){
            var i = procedIndex == 0 ? procedIndex + index : (procedIndex + 1) + index;
-           console.log("procedIndex " + procedIndex + ", index: " + index);
            if(vm.proced[procedIndex].operation[index].type==='U') {
               vm.mostrarQuery[i] = false;
               vm.mostrarUpdate[i] = true;
@@ -98,22 +120,6 @@
               vm.mostrarUpdate[i] = false;
               vm.mostrarQuery[i] = true;
            }
-         }
-
-         vm.update = function (x, y, z, W) {
-           cubeService.update(vm.cube, vm.N, x, y, z, W).then(function (cube) {
-             vm.cube = _.map(cube, _.clone);
-           }).catch(function (err) {
-             return swal(err.title, err.description, err.type);
-           });
-         }
-
-         vm.query = function (x1, y1, z1, x2, y2, z2) {
-           cubeService.query(vm.cube, vm.N, x1, y1, z1, x2, y2, z2).then(function (result) {
-             return result;
-           }).catch(function (err) {
-             return swal(err.title, err.description, err.type);
-           });
          }
 
        }

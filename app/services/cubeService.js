@@ -39,7 +39,7 @@
 
         function update(cube, N, x, y, z, W) {
           var deferred = $q.defer();
-          if (validatePos(x, y, z)) {
+          if (validatePos(x, y, z, N)) {
             cube[x][y][z] = parseInt(W)
             deferred.resolve(cube);
           }
@@ -96,7 +96,7 @@
            for (x = 1; x <= N; x++)  {
                for (y = 1; y <= N; y++){
                    for (z = 1; z <= N; z++){
-                    $log.info("x = " + x + ", y = " + y + ", z = " + z + " | valor =  " + cube[x][y][z]);
+                    // $log.info("x = " + x + ", y = " + y + ", z = " + z + " | valor =  " + cube[x][y][z]);
                    }
                }
            }

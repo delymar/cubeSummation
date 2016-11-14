@@ -1,0 +1,42 @@
+<div class="modal-header">
+    <i class="fa fa-times pull-right fa-2x" aria-hidden="true" ng-click="vm.closeModal()"></i>
+
+    <h3 class="modal-title" id="modal-title">Resultado de Sumatoria de Cubos</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <div class="row">
+        <div class="col-xs-12">
+
+          <table class="table table-bordered">
+             <thead>
+               <tr>
+                 <th class="text-center">Cantidad de Casos de Prueba</th>
+                 <th class="text-center">Dimensión de la Matriz</th>
+                 <th class="text-center">Cantidad de Operaciones por caso de Prueba</th>
+               </tr>
+             </thead>
+             <tbody>
+               <tr>
+                 <td class="text-center">{{vm.items.cs}}</td>
+                 <td class="text-center">{{vm.items.m}}</td>
+                 <td class="text-center">{{vm.items.n}}</td>
+               </tr>
+             </tbody>
+           </table>
+
+            <dl ng-show="vm.result.length > 0" class="dl-horizontal" ng-repeat="item in vm.result track by $index">
+                <dt>Query {{$index+1}}</dt>
+                <dd>{{item}}</dd>
+            </dl>
+
+           <p class="text-center" ng-show="vm.result.length == 0"> No realizó ningún Query</p>
+
+
+          <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary add-button" type="button" ng-click="vm.refresh()">Nuevo Cálculo</button>
+    <br><br>
+</div>
