@@ -112,7 +112,7 @@
       }
 
          vm.getNumber= function(num){
-            return num!= angular.isUndefined ? new Array (parseInt(num)) : [];
+            return num != angular.isUndefined ? new Array(num) : [];
          }
 
          vm.type= function(procedIndex, index){

@@ -50,18 +50,17 @@ var BaseVendors = 'bower_components/';
 // Vendor Files
 var vendorScripts = [
   BaseVendors + 'jquery/dist/jquery.min.js',
+  BaseVendors + 'bootstrap/dist/js/bootstrap.min.js',
   BaseVendors + 'lodash/lodash.min.js',
   BaseVendors + 'angular/angular.min.js',
   BaseVendors + 'angular-sanitize/angular-sanitize.min.js',
   BaseVendors + 'angular-cookies/angular-cookies.min.js',
   BaseVendors + 'angular-ui-router/release/angular-ui-router.min.js',
-  BaseVendors + 'bootstrap/dist/js/bootstrap.min.js',
+  BaseVendors + 'angular-animate/angular-animate.js',
+  BaseVendors + 'angular-bootstrap/ui-bootstrap.min.js',
   BaseVendors + 'angular-bootstrap/ui-bootstrap-tpls.min.js',
   BaseVendors + 'bootstrap-sweetalert/dist/sweetalert.min.js',
-  BaseVendors + 'angular-bootstrap/ui-bootstrap-tpls.min.js',
   BaseVendors + 'angular-toastr/dist/angular-toastr.min.js',
-  BaseVendors + 'angular-animate/angular-animate.js',
-  BaseVendors + 'angular-toastr/dist/angular-toastr.tpls.js',
   BaseVendors + 'async/dist/async.min.js'
 
 
@@ -103,9 +102,9 @@ gulp.task('scripts', function() {
   gulp.src(appScripts)
     .pipe(sourcemaps.init())
     .pipe(concat('app.js'))
-    // .pipe(annotate())
-    // .pipe(uglify())
-    // .pipe(sourcemaps.write())
+    .pipe(annotate())
+    .pipe(uglify())
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest('www/'))
     .pipe(livereload());
 });

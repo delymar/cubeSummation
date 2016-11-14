@@ -15,7 +15,10 @@
     "bootstrap": "~3.3.7",
     "bootstrap-sweetalert": "^1.0.1",
     "angular-ui-bootstrap": "^2.2.0",
-    "async": "^2.1.2"
+    "async": "^2.1.2",
+    "angular-animate": "*",
+    "angular-toastr": "*"  ,
+    "angular-bootstrap": "*"
   },
   "name": "app",
   "version": "0.0.0",
