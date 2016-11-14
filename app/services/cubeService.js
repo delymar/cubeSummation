@@ -50,7 +50,8 @@
         }
 
         function validatePos(x, y, z, N) {
-          console.log("valido? " + x + "-" + y + "-" + z, !(x > N || y > N || z > N || x < 1 || y < 1 || z < 1 ));
+          if (x == undefined || y == undefined || z == undefined || N == undefined)
+            return false
           if (x > N || y > N || z > N || x < 1 || y < 1 || z < 1 )
             return false;
           else

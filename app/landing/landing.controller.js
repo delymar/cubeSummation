@@ -55,45 +55,50 @@
                  var proc = _.map(vm.proced[j], _.clone);
                  if(!_.isEmpty(proc[0]) || proc[0] != undefined) {
                    if( _.size(proc[0]) === vm.M) {
-                     _.forEach(proc[0], function(operacion) {
+                     async.each(proc[0], function(operacion, callback) {
                        if(operacion.type == 'U') {
                          cubeService.update(vm.cube, vm.N, operacion.x, operacion.y, operacion.z, operacion.w).then(function (cube) {
                            vm.cube = _.map(cube, _.clone);
+                           callback();
                          }).catch(function (err) {
-                           toastr.error( err.description,err.title);
+                           return callback(err);
                          });
                        }
                        if(operacion.type == 'Q') {
                          cubeService.query(vm.cube, vm.N, operacion.x1, operacion.y1, operacion.z1, operacion.x2, operacion.y2, operacion.z2)
                           .then(function (result) {
                              vm.resultados.push(result);
+                             callback();
                            }).catch(function (err) {
-                             toastr.error( err.description,err.title);
+                             return callback(err);
                            });
                       }
+                    }, function (err) {
+                      if (err)
+                        toastr.error( err.description,err.title);
+                      else
+                        vm.modalInstance = $uibModal.open({
+                              animation: true,
+                              ariaLabelledBy: 'modal-title',
+                              ariaDescribedBy: 'modal-body',
+                              templateUrl: 'app/landing/modalResult/result-modal.html',
+                              controller: 'resultController',
+                              controllerAs: 'vm',
+                              size: 'md',
+                              resolve: {
+                                items: function(){
+                                       var resultInfo = {
+                                           proced: vm.proced,
+                                           result: vm.resultados,
+                                           cs: vm.form.cs,
+                                           m: vm.form.m,
+                                           n: vm.form.n
+                                       };
+                                       return resultInfo;
+                                   }
+                             }
+                        })
                     });
-                    vm.modalInstance = $uibModal.open({
-                          animation: true,
-                          ariaLabelledBy: 'modal-title',
-                          ariaDescribedBy: 'modal-body',
-                          templateUrl: 'app/landing/modalResult/result-modal.html',
-                          controller: 'resultController',
-                          controllerAs: 'vm',
-                          size: 'md',
-                          resolve: {
-                            items: function(){
-                                   var resultInfo = {
-                                       proced: vm.proced,
-                                       result: vm.resultados,
-                                       cs: vm.form.cs,
-                                       m: vm.form.m,
-                                       n: vm.form.n,
-                                       error: vm.error
-                                   };
-                                   return resultInfo;
-                               }
-                         }
-                    })
                    }
                    else {
                      toastr.warning( "Falta una operación por completar", "Alerta");

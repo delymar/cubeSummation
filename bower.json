@@ -14,7 +14,8 @@
     "font-awesome": "fontawesome#~4.6.3",
     "bootstrap": "~3.3.7",
     "bootstrap-sweetalert": "^1.0.1",
-    "angular-ui-bootstrap": "^2.2.0"
+    "angular-ui-bootstrap": "^2.2.0",
+    "async": "^2.1.2"
   },
   "name": "app",
   "version": "0.0.0",

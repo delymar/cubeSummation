@@ -61,7 +61,9 @@ var vendorScripts = [
   BaseVendors + 'angular-bootstrap/ui-bootstrap-tpls.min.js',
   BaseVendors + 'angular-toastr/dist/angular-toastr.min.js',
   BaseVendors + 'angular-animate/angular-animate.js',
-  BaseVendors + 'angular-toastr/dist/angular-toastr.tpls.js'
+  BaseVendors + 'angular-toastr/dist/angular-toastr.tpls.js',
+  BaseVendors + 'async/dist/async.min.js'
+
 
 ];
 var vendorStyles = [
