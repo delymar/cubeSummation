@@ -37,7 +37,7 @@
         </form>
         </div>
         <div class="row">
-            <form class="form-value" name="forms.operation" ng-repeat="i in vm.getNumber(vm.T) track by $index" ng-init="procedIndex = $index">
+            <form class="form-value" ng-show="vm.mostrar" name="forms.operation" ng-repeat="i in vm.getNumber(vm.T) track by $index" ng-init="procedIndex = $index">
                 <div class="col-md-8 col-md-offset-2 formulario">
                     <fieldset>
                         <legend class="test-title">Caso de Prueba {{$index+1}}</legend>
